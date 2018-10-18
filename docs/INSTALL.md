@@ -4,9 +4,9 @@ XBDD
 Pre-requisites
 --------------
 
-* MongoDB 2.6. See https://docs.mongodb.com/v2.6
-* Tomcat 7. See http://tomcat.apache.org/download-70.cgi
-* Maven 3+. See https://maven.apache.org/
+* MongoDB 4. See https://www.mongodb.com/download-center/v2/community
+* Tomcat 9. See http://tomcat.apache.org/download-90.cgi
+* Maven 3. See http://maven.apache.org/download.cgi
 
 Optional requirements
 ---------------------
@@ -31,14 +31,15 @@ You must first have configured a keystore. You can [create one](http://java.dzon
 Open `$CATALINA_BASE/conf/server.xml` and uncomment the 8443 connector block. Add the `keystoreFile` and `keystorePass` attributes, e.g.:
 
 ```xml
-<Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
-    maxThreads="150" scheme="https" secure="true" clientAuth="false"
-    sslProtocol="TLS"
-    keystoreFile="FILE_LOCATION"
-    keystorePass="PASSWORD_HERE" />
+<Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol" sslImplementationName="org.apache.tomcat.util.net.jsse.JSSEImplementation"
+    maxThreads="150" SSLEnabled="true">
+    <SSLHostConfig>
+        <Certificate certificateKeystoreFile="FILE_LOCATION" certificateKeystorePass="PASSWORD_HERE" type="RSA"/>
+    </SSLHostConfig>
+</Connector>
 ```
 
-Replace `FILE_LOCATION` with the location of your security certificate and `PASSWORD_HERE` with the password.
+Replace `FILE_LOCATION` with the location of your security certificate e.g. `${user.home}/.keystore` and `PASSWORD_HERE` with the password.
 
 ### Authentication
 
