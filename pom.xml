@@ -157,21 +157,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.github.klieber</groupId>
-				<artifactId>phantomjs-maven-plugin</artifactId>
-				<version>0.7</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>install</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<version>1.9.2</version>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.22.1</version>
@@ -184,7 +169,6 @@
 							</excludes>
 							<systemPropertyVariables>
 								<xbdd.https.port>${tomcat.https.port}</xbdd.https.port>
-								<phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
 							</systemPropertyVariables>
 						</configuration>
 						<goals>
@@ -492,12 +476,6 @@
 					<artifactId>guava</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.codeborne</groupId>
-			<artifactId>phantomjsdriver</artifactId>
-			<version>1.4.4</version>
-			<scope>test</scope>
 		</dependency>
 		<!-- Needed for selenium https://code.google.com/p/selenium/issues/detail?id=5245 -->
 		<dependency>

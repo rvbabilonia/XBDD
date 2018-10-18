@@ -19,13 +19,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
@@ -42,9 +39,6 @@ public class XbddDriver extends EventFiringWebDriver {
 		switch (getSeleniumProfile()) {
 			case "chrome":
 				driver = new ChromeDriver();
-				break;
-			case "phantom-js":
-				driver = getPhantomJsDriver();
 				break;
 			case "selenium-grid":
 				driver = getSeleniumGridRemoteDriver();
@@ -68,17 +62,6 @@ public class XbddDriver extends EventFiringWebDriver {
 			seleniumProfile = "";
 		}
 		return seleniumProfile;
-	}
-
-	private static WebDriver getPhantomJsDriver() {
-		final DesiredCapabilities caps = DesiredCapabilities.phantomjs();
-
-		caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
-				new String[] { "--ignore-ssl-errors=true", "--ssl-protocol=tlsv1", "--web-security=false" });
-
-		final PhantomJSDriver phantomJSDriver = new PhantomJSDriver(caps);
-		phantomJSDriver.manage().window().setSize(new Dimension(1280, 800));
-		return phantomJSDriver;
 	}
 
 	private static WebDriver getSeleniumGridRemoteDriver() throws MalformedURLException {
