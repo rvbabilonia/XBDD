@@ -22,13 +22,14 @@
 <%
 	request.setAttribute("isAdmin", request.isUserInRole("admin"));
 %>
+<jsp:useBean id="locator" class="org.webjars.WebJarAssetLocator" scope="application"/>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<script src="${pageContext.request.contextPath}/js/moment-min.js"></script>
-		<script src="${pageContext.request.contextPath}/<%= org.webjars.AssetLocator.getWebJarPath("marked.js") %>"></script>
+		<script src="${pageContext.request.contextPath}/<%= locator.getFullPath("marked.js").replace("META-INF/resources/", "") %>"></script>
 		<script type="text/javascript">
 			var product = "${it.product}",
 				version = "${it.version}",
@@ -37,7 +38,7 @@
             var admin = ${requestScope['isAdmin']};
 		</script>
 		<!-- <link rel="stylesheet" type="text/css" href="/xbdd/css/sections.css" /> -->
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/<%= org.webjars.AssetLocator.getWebJarPath("css/bootstrap.css") %>">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/<%= locator.getFullPath("css/bootstrap.css").replace("META-INF/resources/", "") %>">
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap-custom/sidetabs.css" >
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/xbdd.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css" />
@@ -100,9 +101,9 @@
 		</div>
 		<!-- 	</div> -->
 		
-		<script src = "${pageContext.request.contextPath}/<%= org.webjars.AssetLocator.getWebJarPath("jquery.min.js") %>"></script>
-		<script src = "${pageContext.request.contextPath}/<%= org.webjars.AssetLocator.getWebJarPath("js/bootstrap.min.js") %>"></script>
-		<script src = "${pageContext.request.contextPath}/<%= org.webjars.AssetLocator.getWebJarPath("yui/yui-min.js") %>"></script>
+		<script src = "${pageContext.request.contextPath}/<%= locator.getFullPath("jquery.min.js").replace("META-INF/resources/", "") %>"></script>
+		<script src = "${pageContext.request.contextPath}/<%= locator.getFullPath("js/bootstrap.min.js").replace("META-INF/resources/", "") %>"></script>
+		<script src = "${pageContext.request.contextPath}/<%= locator.getFullPath("yui/yui-min.js").replace("META-INF/resources/", "") %>"></script>
 		<script src = "${pageContext.request.contextPath}/modules/xbdd.js"></script>
 		<script src = "${pageContext.request.contextPath}/modules/statusHelpers.js"></script>
 		<script src = "${pageContext.request.contextPath}/modules/session-timeout.js"></script>

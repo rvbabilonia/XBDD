@@ -25,6 +25,7 @@
     prefix="c"
     uri="http://java.sun.com/jsp/jstl/core"
 %>
+<jsp:useBean id="locator" class="org.webjars.WebJarAssetLocator" scope="application"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,8 +41,8 @@
 <title>Welcome to XBDD</title>
 
 <!-- Bootstrap core CSS -->
-<link rel="stylesheet" type="text/css" href="<%= org.webjars.AssetLocator.getWebJarPath("css/bootstrap.css") %>">
-<link rel="stylesheet" type="text/css" href="./css/bootstrap-custom/sidetabs.css">
+<link rel="stylesheet" type="text/css" href="<%= locator.getFullPath("css/bootstrap.css").replace("META-INF/resources/", "") %>">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap-custom/sidetabs.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css" />
 
 <!-- <link href="./css/sections.css" rel="stylesheet"> -->
@@ -171,22 +172,22 @@
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src ="<%= org.webjars.AssetLocator.getWebJarPath("jquery.min.js") %>"></script>
-	<script src ="<%= org.webjars.AssetLocator.getWebJarPath("js/bootstrap.min.js") %>"></script>
-	<script src ="<%= org.webjars.AssetLocator.getWebJarPath("yui/yui-min.js") %>"></script>
+	<script src="<%= locator.getFullPath("jquery.min.js").replace("META-INF/resources/", "") %>"></script>
+	<script src="<%= locator.getFullPath("js/bootstrap.min.js").replace("META-INF/resources/", "") %>"></script>
+	<script src="<%= locator.getFullPath("yui/yui-min.js").replace("META-INF/resources/", "") %>"></script>
 	<script src="${pageContext.request.contextPath}/modules/statusHelpers.js"></script>
 	<script src="${pageContext.request.contextPath}/modules/favourites.js"></script>
 	<script src="${pageContext.request.contextPath}/modules/xbdd.js"></script>
 	<script src="${pageContext.request.contextPath}/modules/formInput.js"></script>
 	<script src="${pageContext.request.contextPath}/modules/upload.js"></script>
 	<script src="${pageContext.request.contextPath}/modules/feature-test.js"></script>
-	<script src = "${pageContext.request.contextPath}/modules/session-timeout.js"></script>
+	<script src="${pageContext.request.contextPath}/modules/session-timeout.js"></script>
 	<script src="${pageContext.request.contextPath}/modules/buildNav.js"></script>
 	<script src="${pageContext.request.contextPath}/js/moment-min.js"></script>
 	<script src="${pageContext.request.contextPath}/index.js"></script>
-	<script src="${pageContext.request.contextPath}/<%= org.webjars.AssetLocator.getWebJarPath("marked.js") %>"></script>
+	<script src="${pageContext.request.contextPath}/<%= locator.getFullPath("marked.js").replace("META-INF/resources/", "") %>"></script>
 	<c:if test="${it.isAdmin}">
-	<script src = "${pageContext.request.contextPath}/admin-actions.js" /></script>
+	<script src="${pageContext.request.contextPath}/admin-actions.js"></script>
 	</c:if>
 </body>
 </html>
