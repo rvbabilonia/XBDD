@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,7 +50,7 @@ public class Recents {
 	/**
 	 * Uses the '.+' regexp on featureId to allow for symbols such as slashes in the id
 	 * 
-	 * @param String id The featureId to get the history for
+	 * @param featureID id The featureId to get the history for
 	 * @return Response Either a 200 response or a 500
 	 */
 	@PUT
@@ -84,7 +84,7 @@ public class Recents {
 				collection.update(user, new BasicDBObject("$set",new BasicDBObject("recentFeatures", featureArray)));
 			} else {
 				if (featureArray.size()>=5) {
-					collection.update(user, new BasicDBObject("$pop",new BasicDBObject("recentFeatures", "-1")));
+					collection.update(user, new BasicDBObject("$pop",new BasicDBObject("recentFeatures", -1)));
 				}
 				collection.update(user, new BasicDBObject("$addToSet",new BasicDBObject("recentFeatures", featureDetails)));
 			}
@@ -122,7 +122,7 @@ public class Recents {
 				collection.update(user, new BasicDBObject("$set",new BasicDBObject("recentBuilds", buildArray)));
 			} else {
 				if (buildArray.size()>=5) {
-					collection.update(user, new BasicDBObject("$pop",new BasicDBObject("recentBuilds", "-1")));
+					collection.update(user, new BasicDBObject("$pop",new BasicDBObject("recentBuilds", -1)));
 				}
 				collection.update(user, new BasicDBObject("$addToSet",new BasicDBObject("recentBuilds", buildCoords)));
 			}

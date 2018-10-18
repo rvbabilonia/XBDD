@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import xbdd.webapp.util.Coordinates;
 
@@ -57,7 +57,7 @@ public class QueryBuilderTest {
 	@Test
 	public void buildTestQueryWithEmptySearch() {
 		final String[] searchCategories = { "name", "age" };
-		final List<String> searchKeys = new ArrayList<String>();
+		final List<String> searchKeys = new ArrayList<>();
 		searchKeys.add("");
 
 		final BasicDBObject searchQuery = this.queryBuilder.getSearchQuery(searchKeys, this.coordinates, searchCategories);
@@ -71,7 +71,7 @@ public class QueryBuilderTest {
 	@Test
 	public void buildSimpleTestQuery() {
 		final String[] searchCategories = { "name", "age" };
-		final List<String> searchKeys = new ArrayList<String>();
+		final List<String> searchKeys = new ArrayList<>();
 		searchKeys.add("hi");
 		searchKeys.add("there");
 

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Simple authentication filter that checks for basic authentication headers and otherwise defers to the realm's authentication mechanism.
@@ -40,7 +40,6 @@ public class BasicAuthFilter implements Filter {
 
 	@Override
 	public void destroy() {
-
 	}
 
 	@Override
@@ -66,8 +65,6 @@ public class BasicAuthFilter implements Filter {
 	}
 
 	@Override
-	public void init(final FilterConfig arg0) throws ServletException {
-
+	public void init(final FilterConfig arg0) {
 	}
-
 }

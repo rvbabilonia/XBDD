@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import xbdd.util.Statuses;
 import xbdd.webapp.util.Coordinates;
@@ -42,8 +42,8 @@ public class QueryBuilder {
 		return instance;
 	}
 
-	public BasicDBObject getSearchQuery(final List<String> searchWords, final Coordinates coordinates, final String[] searchCategories) {
-		final List<BasicDBObject> searchParameters = new ArrayList<BasicDBObject>();
+	BasicDBObject getSearchQuery(final List<String> searchWords, final Coordinates coordinates, final String[] searchCategories) {
+		final List<BasicDBObject> searchParameters = new ArrayList<>();
 		for (int i = 0; i < searchWords.size(); i++) {
 			String key = searchWords.get(i);
 			if (!key.equals("")) {
@@ -64,7 +64,7 @@ public class QueryBuilder {
 		return coordinates.getQueryObject().append("$or", searchParameters);
 	}
 
-	public BasicDBObject buildFilterQuery(final Coordinates coordinates, final String searchText,
+	BasicDBObject buildFilterQuery(final Coordinates coordinates, final String searchText,
 			final Integer viewPassed, final Integer viewFailed, final Integer viewUndefined,
 			final Integer viewSkipped, final String start) {
 		final BasicDBObject query = coordinates.getReportCoordinatesQueryObject();
@@ -88,7 +88,7 @@ public class QueryBuilder {
 			}
 		}
 
-		final Map<String, DBObject> statuses = new HashMap<String, DBObject>();
+		final Map<String, DBObject> statuses = new HashMap<>();
 		final String calculatedStatus = "calculatedStatus";
 		statuses.put(Statuses.PASSED.getTextName(), new BasicDBObject(calculatedStatus, Statuses.PASSED.getTextName()));
 		statuses.put(Statuses.FAILED.getTextName(), new BasicDBObject(calculatedStatus, Statuses.FAILED.getTextName()));
@@ -124,10 +124,10 @@ public class QueryBuilder {
 		return query;
 	}
 
-	public List<DBObject> buildHasTagsQuery() {
-		final List<DBObject> tagsQuery = new ArrayList<DBObject>();
+	List<DBObject> buildHasTagsQuery() {
+		final List<DBObject> tagsQuery = new ArrayList<>();
 		final DBObject tagsQueryObject = new BasicDBObject();
-		final List<DBObject> orQuery = new ArrayList<DBObject>();
+		final List<DBObject> orQuery = new ArrayList<>();
 		final DBObject exist = new BasicDBObject("$exists", true);
 		final DBObject featureTags = new BasicDBObject("tags", exist);
 		final DBObject scenarioTags = new BasicDBObject("elements.tags", exist);

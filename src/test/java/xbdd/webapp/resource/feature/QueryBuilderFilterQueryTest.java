@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,6 @@ import xbdd.webapp.util.Coordinates;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
 
 public class QueryBuilderFilterQueryTest {
 	@Test
@@ -35,7 +34,7 @@ public class QueryBuilderFilterQueryTest {
 		co.setMinor(1);
 		co.setProduct("test");
 		co.setServicePack(1);
-		final DBObject expected = (DBObject) JSON
+		final DBObject expected = BasicDBObject
 				.parse("{ 'coordinates.product' : 'test' , 'coordinates.major' : 1 , 'coordinates.minor' : 1 , 'coordinates.servicePack' : 1 , 'coordinates.build' : 'test' , '$and' : null}");
 		Assert.assertThat(QueryBuilder.getInstance().buildFilterQuery(co, "", 0, 0, 0, 0, null), equalTo(expected));
 	}
@@ -48,7 +47,7 @@ public class QueryBuilderFilterQueryTest {
 		co.setMinor(1);
 		co.setProduct("test");
 		co.setServicePack(1);
-		final DBObject expected = (DBObject) JSON
+		final DBObject expected = BasicDBObject
 				.parse("{ 'coordinates.product' : 'test' , 'coordinates.major' : 1 , 'coordinates.minor' : 1 , 'coordinates.servicePack' : 1 , 'coordinates.build' : 'test' , '$or' : [ { 'calculatedStatus' : 'passed'}]}");
 		Assert.assertThat(QueryBuilder.getInstance().buildFilterQuery(co, "", 1, 0, 0, 0, null), equalTo(expected));
 	}
@@ -61,7 +60,7 @@ public class QueryBuilderFilterQueryTest {
 		co.setMinor(1);
 		co.setProduct("test");
 		co.setServicePack(1);
-		final DBObject expected = (DBObject) JSON
+		final DBObject expected = BasicDBObject
 				.parse("{ 'coordinates.product' : 'test' , 'coordinates.major' : 1 , 'coordinates.minor' : 1 , 'coordinates.servicePack' : 1 , 'coordinates.build' : 'test' , '$or' : [ { 'calculatedStatus' : 'failed'}]}");
 		Assert.assertThat(QueryBuilder.getInstance().buildFilterQuery(co, "", 0, 1, 0, 0, null), equalTo(expected));
 	}
@@ -74,7 +73,7 @@ public class QueryBuilderFilterQueryTest {
 		co.setMinor(1);
 		co.setProduct("test");
 		co.setServicePack(1);
-		final DBObject expected = (DBObject) JSON
+		final DBObject expected = BasicDBObject
 				.parse("{ 'coordinates.product' : 'test' , 'coordinates.major' : 1 , 'coordinates.minor' : 1 , 'coordinates.servicePack' : 1 , 'coordinates.build' : 'test' , '$or' : [ { 'calculatedStatus' : 'skipped'}]}");
 		Assert.assertThat(QueryBuilder.getInstance().buildFilterQuery(co, "", 0, 0, 0, 1, null), equalTo(expected));
 	}
@@ -87,7 +86,7 @@ public class QueryBuilderFilterQueryTest {
 		co.setMinor(1);
 		co.setProduct("test");
 		co.setServicePack(1);
-		final DBObject expected = (DBObject) JSON
+		final DBObject expected = BasicDBObject
 				.parse("{ 'coordinates.product' : 'test' , 'coordinates.major' : 1 , 'coordinates.minor' : 1 , 'coordinates.servicePack' : 1 , 'coordinates.build' : 'test' , '$or' : [ { 'calculatedStatus' : 'undefined'}]}");
 		Assert.assertThat(QueryBuilder.getInstance().buildFilterQuery(co, "", 0, 0, 1, 0, null), equalTo(expected));
 	}
@@ -100,7 +99,7 @@ public class QueryBuilderFilterQueryTest {
 		co.setMinor(1);
 		co.setProduct("test");
 		co.setServicePack(1);
-		final DBObject expected = (DBObject) JSON
+		final DBObject expected = BasicDBObject
 				.parse("{ 'coordinates.product' : 'test' , 'coordinates.major' : 1 , 'coordinates.minor' : 1 , 'coordinates.servicePack' : 1 , 'coordinates.build' : 'test' , '$and' : [ { 'name' : { '$regex' : '.*this.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*is.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*a.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*test.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*filter.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*string.*' , '$options' : 'i'}}]}");
 		Assert.assertThat(QueryBuilder.getInstance().buildFilterQuery(co, "this is a test filter string", 0, 0, 0, 0, null),
 				equalTo(expected));
@@ -114,7 +113,7 @@ public class QueryBuilderFilterQueryTest {
 		co.setMinor(1);
 		co.setProduct("test");
 		co.setServicePack(1);
-		final DBObject expected = (DBObject) JSON
+		final DBObject expected = BasicDBObject
 				.parse("{ 'coordinates.product' : 'test' , 'coordinates.major' : 1 , 'coordinates.minor' : 1 , 'coordinates.servicePack' : 1 , 'coordinates.build' : 'test' , '$and' : [ { 'tags.name' : { '$regex' : '.*@this.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*is.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*a.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*test.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*tag.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*filter.*' , '$options' : 'i'}} , { 'name' : { '$regex' : '.*string.*' , '$options' : 'i'}}]}");
 		Assert.assertThat(QueryBuilder.getInstance().buildFilterQuery(co, "@this is a test tag filter string", 0, 0, 0, 0, null),
 				equalTo(expected));

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,18 +15,17 @@
  */
 package xbdd.webapp.factory;
 
-import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.Objects;
 
 import javax.inject.Singleton;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.glassfish.hk2.api.Factory;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 
@@ -56,15 +55,15 @@ public class ServletContextMongoClientFactory implements Factory<MongoDBAccessor
 		this.username = context.getInitParameter(XBDD_MONGO_USERNAME_INIT_PARAMETER);
 		this.password = context.getInitParameter(XBDD_MONGO_PASSWORD_INIT_PARAMETER) != null ?
 				context.getInitParameter(XBDD_MONGO_PASSWORD_INIT_PARAMETER).toCharArray() : null;
-		this.port = NumberUtils.isNumber(context.getInitParameter(XBDD_MONGO_PORT_INIT_PARAMETER)) ?
+		this.port = StringUtils.isNumeric(context.getInitParameter(XBDD_MONGO_PORT_INIT_PARAMETER)) ?
 				Integer.parseInt(context.getInitParameter(XBDD_MONGO_PORT_INIT_PARAMETER)) : ServerAddress.defaultPort();
 	}
 
-	private MongoDBAccessor getMongoDBAccessor() throws UnknownHostException {
+	private MongoDBAccessor getMongoDBAccessor() {
 		final MongoClient mc;
 		if (this.username != null) {
-			MongoCredential credentials = MongoCredential.createMongoCRCredential(this.username, "admin", this.password);
-			mc = new MongoClient(new ServerAddress(this.host, this.port), Arrays.asList(credentials));
+			MongoCredential credentials = MongoCredential.createCredential(this.username, "admin", this.password);
+			mc = new MongoClient(new ServerAddress(this.host, this.port), credentials, MongoClientOptions.builder().build());
 		} else {
 			mc = new MongoClient(this.host, this.port);
 		}
@@ -79,11 +78,6 @@ public class ServletContextMongoClientFactory implements Factory<MongoDBAccessor
 
 	@Override
 	public MongoDBAccessor provide() {
-		try {
-			return getMongoDBAccessor();
-		} catch (final UnknownHostException e) {
-			throw new RuntimeException(e);
-		}
+		return getMongoDBAccessor();
 	}
-
 }

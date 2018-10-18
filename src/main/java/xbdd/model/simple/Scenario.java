@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,9 +21,8 @@ import java.util.Set;
 import org.bson.BSONObject;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
-public class Scenario implements DBObject {
+public class Scenario extends BasicDBObject {
 
 	private final BasicDBObject scenarioObject;
 
@@ -44,11 +43,6 @@ public class Scenario implements DBObject {
 	@Override
 	public boolean containsField(final String arg0) {
 		return this.scenarioObject.containsField(arg0);
-	}
-
-	@Override
-	public boolean containsKey(final String arg0) {
-		return this.scenarioObject.containsKey(arg0);
 	}
 
 	@Override

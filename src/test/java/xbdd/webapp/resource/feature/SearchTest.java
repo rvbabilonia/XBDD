@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,8 +18,8 @@ package xbdd.webapp.resource.feature;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
 import xbdd.webapp.factory.MongoDBAccessor;
@@ -82,7 +82,7 @@ public class SearchTest {
 			private int count = Search.SEARCH_LIMIT + 10;
 
 			@Override
-			public Boolean answer(final InvocationOnMock invocation) throws Throwable {
+			public Boolean answer(final InvocationOnMock invocation) {
 				if (this.count < 0) {
 					return false;
 				} else {

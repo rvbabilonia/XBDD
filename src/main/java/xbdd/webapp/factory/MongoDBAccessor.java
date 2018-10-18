@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +17,7 @@ package xbdd.webapp.factory;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoDatabase;
 
 /**
  * Wrapper for {@link MongoClient} that provides a central point for applying authentication to {@link DB} connections.
@@ -31,11 +32,28 @@ public class MongoDBAccessor {
 	}
 
 	public void close() {
-		this.client.close();
+		client.close();
 	}
 
+	/**
+	 * Returns the {@link DB} with the given database name.
+	 *
+	 * @param dbName the database name
+	 * @return the {@link DB}
+	 * @deprecated use {@link #getDatabase(String)}
+	 */
+	@Deprecated
 	public DB getDB(final String dbName) {
-		final DB db = this.client.getDB(dbName);
-		return db;
+		return client.getDB(dbName);
+	}
+
+	/**
+	 * Returns the {@link MongoDatabase} with the given database name.
+	 *
+	 * @param dbName the database name
+	 * @return the {@link MongoDatabase}
+	 */
+	public MongoDatabase getDatabase(final String dbName) {
+		return client.getDatabase(dbName);
 	}
 }

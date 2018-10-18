@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,9 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.mongodb.DBObject;
 
@@ -44,13 +43,8 @@ public class DBObjectComparator implements Comparator<DBObject> {
 	 * @param searchExpressions a list of regular expressions
 	 * @throws PatternSyntaxException if any of the expressions are not valid regex
 	 */
-	public DBObjectComparator(final Collection<String> searchExpressions) {
-		final String regex = StringUtils.join(Collections2.transform(searchExpressions, new Function<String, String>() {
-			@Override
-			public String apply(final String input) {
-				return "(" + input + ")";
-			}
-		}), "|");
+	DBObjectComparator(final Collection<String> searchExpressions) {
+		final String regex = StringUtils.join(Collections2.transform(searchExpressions, input -> "(" + input + ")"), "|");
 		this.pattern = Pattern.compile(regex);
 	}
 

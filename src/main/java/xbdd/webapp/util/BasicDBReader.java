@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,8 +32,8 @@ import javax.ws.rs.ext.Provider;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.message.internal.AbstractMessageReaderWriterProvider;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
 
 @Provider
 @Produces({ "application/json", "text/plain", "*/*" })
@@ -55,7 +55,7 @@ public class BasicDBReader extends AbstractMessageReaderWriterProvider<DBObject>
 			MultivaluedMap<String, Object> httpHeaders,
 			OutputStream entityStream)
 			throws IOException, WebApplicationException {
-		writeToAsString(JSON.serialize(myBean), entityStream, mediaType);
+		writeToAsString(myBean.toString(), entityStream, mediaType);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class BasicDBReader extends AbstractMessageReaderWriterProvider<DBObject>
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(entityStream, writer, "UTF-8");
 		String theString = writer.toString();
-		return (DBObject) JSON.parse(theString);
+		return BasicDBObject.parse(theString);
 	}
 
 }
