@@ -61,7 +61,7 @@ public class AdminStepdefs {
 		this.webDriver.navigate().to(this.xbddInstance.getBaseURL());
 		new WebDriverWait(this.webDriver, 10).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".product-action-menu button")));
 		this.originalProductName = this.webDriver.findElement(By.cssSelector(".product-link")).getAttribute("innerHTML");
-		this.renameResp = this.client.target(this.xbddInstance.getBaseURL() + "rest/admin/" + this.originalProductName)
+		this.renameResp = this.client.target(this.xbddInstance.getBaseURL() + "/rest/admin/" + this.originalProductName)
 				.request(MediaType.APPLICATION_JSON_TYPE).put(Entity.json("{\"name\": \"" + this.newProductName + "\"}"));
 	}
 
@@ -83,7 +83,7 @@ public class AdminStepdefs {
 		new WebDriverWait(this.webDriver, 10).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".product-action-menu button")));
 		this.ProductQuant = this.webDriver.findElements(By.cssSelector(".delete-product")).size();
 		final String ProductName = this.webDriver.findElement(By.cssSelector(".product-link")).getAttribute("innerHTML");
-		final WebTarget webTarget = this.client.target(this.xbddInstance.getBaseURL() + "rest/admin/delete/" + ProductName);
+		final WebTarget webTarget = this.client.target(this.xbddInstance.getBaseURL() + "/rest/admin/delete/" + ProductName);
 		webTarget.request().delete();
 	}
 
@@ -100,7 +100,7 @@ public class AdminStepdefs {
 	@Then("^all references to the old product are removed$")
 	public void all_references_to_the_old_product_are_removed() {
 		final Response resp = this.userClient
-				.target(this.xbddInstance.getBaseURL() + "rest/reports/featureIndex/" + this.originalProductName + "/1.0.0/1").request()
+				.target(this.xbddInstance.getBaseURL() + "/rest/reports/featureIndex/" + this.originalProductName + "/1.0.0/1").request()
 				.get();
 		assertThat(resp.readEntity(String.class), is("[ ]"));
 	}
@@ -108,7 +108,7 @@ public class AdminStepdefs {
 	@Then("^references to the new product are added$")
 	public void references_to_the_new_product_are_added() {
 		final Response resp = this.userClient
-				.target(this.xbddInstance.getBaseURL() + "rest/reports/featureIndex/" + this.newProductName + "/1.0.0/1").request().get();
+				.target(this.xbddInstance.getBaseURL() + "/rest/reports/featureIndex/" + this.newProductName + "/1.0.0/1").request().get();
 		assertThat(resp.readEntity(String.class), is(not("[ ]")));
 	}
 

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +26,6 @@ public class XBDDInstance {
 		} catch (final UnknownHostException e) {
 			hostname = "localhost";
 		}
-		return "https://" + hostname + ":" + Integer.valueOf(System.getProperty("xbdd.https.port", "28443")) + "/xbdd/";
+		return "https://" + hostname + ":" + Integer.valueOf(System.getProperty("xbdd.https.port", "28443")) + "/xbdd";
 	}
 }
