@@ -30,10 +30,10 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.io.IOUtils;
-import org.bson.Document;
 import org.glassfish.jersey.message.internal.AbstractMessageReaderWriterProvider;
 
 import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 
 @Provider
 @Produces({ "application/json", "text/plain", "*/*" })
@@ -55,7 +55,7 @@ public class BasicDBReader extends AbstractMessageReaderWriterProvider<DBObject>
 			MultivaluedMap<String, Object> httpHeaders,
 			OutputStream entityStream)
 			throws IOException, WebApplicationException {
-		writeToAsString(myBean.toString(), entityStream, mediaType);
+    writeToAsString(JSON.serialize(myBean), entityStream, mediaType);
 	}
 
 	@Override
@@ -72,6 +72,6 @@ public class BasicDBReader extends AbstractMessageReaderWriterProvider<DBObject>
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(entityStream, writer, "UTF-8");
 		String theString = writer.toString();
-		return (DBObject) Document.parse(theString);
+    return (DBObject) JSON.parse(theString);
 	}
 }
