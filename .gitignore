@@ -9,3 +9,4 @@ node/
 node_modules/
 ivysettings.xml
 ivy_ivy_id_dsa
+.idea/
