@@ -43,6 +43,8 @@ import de.flapdoodle.embed.mongo.config.MongoImportConfigBuilder;
 import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
+import de.flapdoodle.embed.mongo.distribution.Versions;
+import de.flapdoodle.embed.process.distribution.GenericVersion;
 import de.flapdoodle.embed.process.runtime.Network;
 
 public class QueryBuilderTagQueryTest {
@@ -61,7 +63,7 @@ public class QueryBuilderTagQueryTest {
 		final String jsonFile = "src/test/resources/xbdd/tag-test-report.json";
 
 		final IMongodConfig mongoConfigConfig = new MongodConfigBuilder()
-				.version(Version.Main.PRODUCTION)
+				.version(Versions.withFeatures(new GenericVersion("4.0.3"), Version.Main.PRODUCTION.getFeatures()))
 				.net(new Net(port, Network.localhostIsIPv6()))
 				.configServer(false)
 				.build();
@@ -69,7 +71,7 @@ public class QueryBuilderTagQueryTest {
 		this.mongodExecutable = MongodStarter.getDefaultInstance().prepare(mongoConfigConfig);
 		this.mongodExecutable.start();
 		final IMongoImportConfig mongoImportConfig = new MongoImportConfigBuilder()
-				.version(Version.Main.PRODUCTION)
+				.version(Versions.withFeatures(new GenericVersion("4.0.3"), Version.Main.PRODUCTION.getFeatures()))
 				.net(new Net(port, Network.localhostIsIPv6()))
 				.db(this.dbName)
 				.collection(this.collection)
