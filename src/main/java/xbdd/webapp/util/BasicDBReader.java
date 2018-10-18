@@ -30,9 +30,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.io.IOUtils;
+import org.bson.Document;
 import org.glassfish.jersey.message.internal.AbstractMessageReaderWriterProvider;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 @Provider
@@ -72,7 +72,6 @@ public class BasicDBReader extends AbstractMessageReaderWriterProvider<DBObject>
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(entityStream, writer, "UTF-8");
 		String theString = writer.toString();
-		return BasicDBObject.parse(theString);
+		return (DBObject) Document.parse(theString);
 	}
-
 }
