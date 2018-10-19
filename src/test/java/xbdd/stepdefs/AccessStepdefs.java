@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -73,7 +73,7 @@ public class AccessStepdefs {
 	public void the_session_is_invalidated() {
 		if (this.webDriver instanceof JavascriptExecutor) {
 			((JavascriptExecutor) this.webDriver).executeScript("YUI().use('statusHelpers','io-base', function(Y) { "
-					+ "Y.io(Y.statusHelpers.getContext()+'/logout', { method: 'GET' }); });");
+					+ "Y.io(Y.statusHelpers.getContext() + 'logout', { method: 'GET' }); });");
 		}
 	}
 
@@ -113,7 +113,6 @@ public class AccessStepdefs {
 	@Then("^a login dialog is displayed$")
 	public void a_login_dialog_is_displayed() {
 		new WebDriverWait(this.webDriver, 10).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("session-timeout-iframe")));
-		new WebDriverWait(this.webDriver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("j_username")));
 	}
 
 	@Then("^the user can log in again$")
