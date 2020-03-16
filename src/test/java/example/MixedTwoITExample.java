@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +15,13 @@
  */
 package example;
 
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
-
 @RunWith(Cucumber.class)
-@CucumberOptions(tags = { "@mixed", "@two" }, format = { "json:src/test/resources/xbdd/mixed-scenario1-scenario2-report.json" }, monochrome = true, strict = false)
+@CucumberOptions(tags = { "@mixed", "@two" }, plugin = { "json:src/test/resources/xbdd/mixed-scenario1-scenario2-report.json" },
+    monochrome = true)
 public class MixedTwoITExample {
 
 }

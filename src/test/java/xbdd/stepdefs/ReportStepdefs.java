@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 
 import xbdd.report.FeatureSummary;
@@ -36,10 +39,6 @@ import xbdd.report.StepSummary;
 import xbdd.utils.XBDDInstance;
 
 import com.mongodb.DBObject;
-
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 public class ReportStepdefs {
 	private final ReportManager reportManager;
@@ -56,41 +55,41 @@ public class ReportStepdefs {
 	private final static String FAILED_FEATURE_PATHPARAM = "failing-feature";
 	private final static ScenarioSummary[] BASIC_CUCUMBER_SCENARIOS = {
 			new ScenarioSummary("I have no steps", "", "unknown status? - expected passed,failed or undefined",
-					Collections.<String> emptyList(), Collections.<StepSummary> emptyList()),
-			new ScenarioSummary("Test state", "", "undefined", Collections.<String> emptyList(), Arrays.asList(new StepSummary("",
+					Collections.emptyList(), Collections.emptyList()),
+			new ScenarioSummary("Test state", "", "undefined", Collections.emptyList(), Arrays.asList(new StepSummary("",
 					"undefined"), new StepSummary("", "undefined"))),
-			new ScenarioSummary("Test state", "", "undefined", Collections.<String> emptyList(), Arrays.asList(new StepSummary("",
+			new ScenarioSummary("Test state", "", "undefined", Collections.emptyList(), Arrays.asList(new StepSummary("",
 					"undefined"), new StepSummary("", "undefined"))),
-			new ScenarioSummary("Test state", "", "undefined", Collections.<String> emptyList(), Arrays.asList(new StepSummary("",
+			new ScenarioSummary("Test state", "", "undefined", Collections.emptyList(), Arrays.asList(new StepSummary("",
 					"undefined"), new StepSummary("", "undefined"))),
-			new ScenarioSummary("Test state", "", "undefined", Collections.<String> emptyList(), Arrays.asList(new StepSummary("",
+			new ScenarioSummary("Test state", "", "undefined", Collections.emptyList(), Arrays.asList(new StepSummary("",
 					"undefined"), new StepSummary("", "undefined"))) };
 
 	private final static FeatureSummary[] BASIC_REPORT_FEATURES = {
-			new FeatureSummary("Passing feature", "passed", Collections.<String> emptyList()),
-			new FeatureSummary("Failing feature", "failed", Collections.<String> emptyList()),
+			new FeatureSummary("Passing feature", "passed", Collections.emptyList()),
+			new FeatureSummary("Failing feature", "failed", Collections.emptyList()),
 			new FeatureSummary("Feature with tags", "passed", Arrays.asList("@such-test", "@wow")),
-			new FeatureSummary("Descriptions everywhere", "passed", Collections.<String> emptyList()),
-			new FeatureSummary("Star-notation feature", "undefined", Collections.<String> emptyList()),
-			new FeatureSummary("Passing background sample", "undefined", Collections.<String> emptyList()),
+			new FeatureSummary("Descriptions everywhere", "passed", Collections.emptyList()),
+			new FeatureSummary("Star-notation feature", "undefined", Collections.emptyList()),
+			new FeatureSummary("Passing background sample", "undefined", Collections.emptyList()),
 			new FeatureSummary("Scenarios can have attachments", "undefined", Collections
-					.<String> emptyList()),
-			new FeatureSummary("A basic cucumber example", "undefined", Collections.<String> emptyList())
+					.emptyList()),
+			new FeatureSummary("A basic cucumber example", "undefined", Collections.emptyList())
 	};
 
 	private final static ScenarioSummary FEATURE_WITH_TAGS_SCENARIO = new ScenarioSummary(WITH_TAG_SCENARIO_NAME, "", "passed",
-			Arrays.asList("@much-automation"));
+			Collections.singletonList("@much-automation"));
 	private final static ScenarioSummary FAILED_SCENARIO = new ScenarioSummary(FAILED_SCENARIO_NAME, "", "failed",
-			Collections.<String> emptyList(), Arrays.asList(new StepSummary("Given this step fails", "failed")));
+			Collections.emptyList(), Collections.singletonList(new StepSummary("Given this step fails", "failed")));
 	private final static ScenarioSummary WITH_AN_ATTACHEMENT_SCENARIO = new ScenarioSummary(SCENARIO_WITH_ATTACHMENT_SCENARIO_NAME, "",
 			"undefined",
-			Collections.<String> emptyList(), Arrays.asList(new StepSummary("Given a scenario", "undefined"), new StepSummary(
+			Collections.emptyList(), Arrays.asList(new StepSummary("Given a scenario", "undefined"), new StepSummary(
 					"And it includes an attachment", "undefined")));
 	private final static String EXAMPLE_SCENARIO_PATHPARAM = "this-scenario-has-a-tag";
 	private final static String FAILED_SCENARIO_PATHPARAM = "this-feature-fails";
 	private final static String WITH_AN_ATTACHMENT_SCENARIO_PATHPARAM = "a-scenario-with-an-attachment";
 
-	private final static Map<String, String> FEATURE_UPDATES = new HashMap<String, String>();
+	private final static Map<String, String> FEATURE_UPDATES = new HashMap<>();
 	static {
 		FEATURE_UPDATES.put("testing-tips", "testing tips input");
 		FEATURE_UPDATES.put("environment-notes", "environment input");
@@ -174,7 +173,7 @@ public class ReportStepdefs {
 		final DBObject newFeature = this.reportManager.updateFeatureJSONObject(originalFeature, FEATURE_UPDATES);
 		this.reportManager.updateFeature(newFeature, this.xbddInstance.getBaseURL(), this.reportContext, "feature-with-tags");
 		this.expectedScenarioSummary = FEATURE_WITH_TAGS_SCENARIO;
-		this.expectedScenarioSummary.setSteps(Arrays.asList(new StepSummary("Given this step passes", "passed")));
+		this.expectedScenarioSummary.setSteps(Collections.singletonList(new StepSummary("Given this step passes", "passed")));
 		this.expectedScenarioSummary.setTestingTips("testing tips input");
 		this.expectedScenarioSummary.setEnvironment("environment input");
 		this.expectedScenarioSummary.setExecutionNotes("execution notes input");

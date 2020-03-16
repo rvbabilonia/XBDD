@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,8 @@
  */
 package example.stepdefs;
 
+import io.cucumber.java.en.Given;
 import org.junit.Assert;
-
-import cucumber.api.java.en.Given;
 
 public class MixedStepdefs {
 	@Given("^A failed scenario$")
@@ -27,7 +26,5 @@ public class MixedStepdefs {
 
 	@Given("^A scenario$")
 	public void a_scenario() {
-
 	}
-
 }

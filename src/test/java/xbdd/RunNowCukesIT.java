@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +15,12 @@
  */
 package xbdd;
 
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
-
 @RunWith(Cucumber.class)
-@CucumberOptions(tags = { "@now", "~@manual", "~@wip", "~@out_of_scope", "~@proposed" }, format = { "pretty", "html:target/cukes",
+@CucumberOptions(tags = { "@now", "~@manual", "~@wip", "~@out_of_scope", "~@proposed" }, plugin = { "pretty", "html:target/cukes",
 		"usage:target/usage.json" }, monochrome = true, strict = true)
 public class RunNowCukesIT {
 

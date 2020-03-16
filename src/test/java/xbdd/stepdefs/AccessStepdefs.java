@@ -17,6 +17,9 @@ package xbdd.stepdefs;
 
 import java.util.concurrent.TimeUnit;
 
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -25,9 +28,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import xbdd.XbddDriver;
 import xbdd.utils.XBDDInstance;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 public class AccessStepdefs {
 

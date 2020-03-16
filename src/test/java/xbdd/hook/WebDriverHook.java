@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2015 Orion Health (Orchestral Development Ltd)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,12 @@
  */
 package xbdd.hook;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriverException;
 
 import xbdd.XbddDriver;
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
 
 public class WebDriverHook {
 	private final XbddDriver driver;

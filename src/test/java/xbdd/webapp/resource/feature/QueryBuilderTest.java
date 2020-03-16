@@ -15,11 +15,6 @@
  */
 package xbdd.webapp.resource.feature;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +27,8 @@ import xbdd.webapp.util.Coordinates;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QueryBuilderTest {
@@ -65,7 +62,7 @@ public class QueryBuilderTest {
 		@SuppressWarnings("unchecked")
 		final List<DBObject> queryResults = (ArrayList<DBObject>) searchQuery.get("$or");
 
-		assertThat(queryResults, is(empty()));
+		assertThat(queryResults).isEmpty();
 	}
 
 	@Test
@@ -80,9 +77,9 @@ public class QueryBuilderTest {
 		@SuppressWarnings("unchecked")
 		final List<DBObject> queryResults = (ArrayList<DBObject>) searchQuery.get("$or");
 
-		assertEquals("{ \"name\" : { \"$regex\" : \"hi\", \"$options\" : \"i\" } }", queryResults.get(0).toString());
-		assertEquals("{ \"age\" : { \"$regex\" : \"hi\", \"$options\" : \"i\" } }", queryResults.get(1).toString());
-		assertEquals("{ \"name\" : { \"$regex\" : \"there\", \"$options\" : \"i\" } }", queryResults.get(2).toString());
-		assertEquals("{ \"age\" : { \"$regex\" : \"there\", \"$options\" : \"i\" } }", queryResults.get(3).toString());
+		assertThat(queryResults.get(0).toString()).isEqualTo("{\"name\": {\"$regex\": \"hi\", \"$options\": \"i\"}}");
+		assertThat(queryResults.get(1).toString()).isEqualTo("{\"age\": {\"$regex\": \"hi\", \"$options\": \"i\"}}");
+		assertThat(queryResults.get(2).toString()).isEqualTo("{\"name\": {\"$regex\": \"there\", \"$options\": \"i\"}}");
+		assertThat(queryResults.get(3).toString()).isEqualTo("{\"age\": {\"$regex\": \"there\", \"$options\": \"i\"}}");
 	}
 }

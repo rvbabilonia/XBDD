@@ -1,7 +1,8 @@
 language: java
 
-jdk:
-  - openjdk8
+jdk: openjdk11
+
+dist: xenial
 
 cache:
   directories:

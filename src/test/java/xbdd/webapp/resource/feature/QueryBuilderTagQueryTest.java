@@ -15,14 +15,19 @@
  */
 package xbdd.webapp.resource.feature;
 
-import static org.hamcrest.Matchers.equalTo;
+import static de.flapdoodle.embed.mongo.distribution.Version.Main.V4_0;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.util.List;
 
+import de.flapdoodle.embed.mongo.Command;
+import de.flapdoodle.embed.mongo.config.*;
+import de.flapdoodle.embed.process.config.IRuntimeConfig;
+import de.flapdoodle.embed.process.config.store.HttpProxyFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,14 +42,8 @@ import com.mongodb.client.MongoDatabase;
 import de.flapdoodle.embed.mongo.MongoImportStarter;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodStarter;
-import de.flapdoodle.embed.mongo.config.IMongoImportConfig;
-import de.flapdoodle.embed.mongo.config.IMongodConfig;
-import de.flapdoodle.embed.mongo.config.MongoImportConfigBuilder;
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
-import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.mongo.distribution.Versions;
-import de.flapdoodle.embed.process.distribution.GenericVersion;
 import de.flapdoodle.embed.process.runtime.Network;
 
 public class QueryBuilderTagQueryTest {
@@ -63,18 +62,34 @@ public class QueryBuilderTagQueryTest {
 		final String jsonFile = "src/test/resources/xbdd/tag-test-report.json";
 
 		final IMongodConfig mongoConfigConfig = new MongodConfigBuilder()
-				.version(Versions.withFeatures(new GenericVersion("4.0.3"), Version.Main.PRODUCTION.getFeatures()))
+				.version(Versions.withFeatures(V4_0, Version.Main.PRODUCTION.getFeatures()))
 				.net(new Net(port, Network.localhostIsIPv6()))
 				.configServer(false)
 				.build();
 
-		this.mongodExecutable = MongodStarter.getDefaultInstance().prepare(mongoConfigConfig);
-		this.mongodExecutable.start();
+		if (StringUtils.isNotBlank(System.getenv("https.proxyHost"))) {
+			IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder()
+					.defaults(Command.MongoD)
+					.artifactStore(new ExtractedArtifactStoreBuilder()
+							.defaults(Command.MongoD)
+							.download(new DownloadConfigBuilder()
+									.defaultsForCommand(Command.MongoD)
+									// e.g. https.proxyHost=proxy.example.com;https.proxyPort=3128
+									.proxyFactory(new HttpProxyFactory(System.getenv("https.proxyHost"), Integer.parseInt(System.getenv("https.proxyPort"))))
+									.build()))
+					.build();
+
+			mongodExecutable = MongodStarter.getInstance(runtimeConfig).prepare(mongoConfigConfig);
+		} else {
+			mongodExecutable = MongodStarter.getDefaultInstance().prepare(mongoConfigConfig);
+		}
+
+		mongodExecutable.start();
 		final IMongoImportConfig mongoImportConfig = new MongoImportConfigBuilder()
-				.version(Versions.withFeatures(new GenericVersion("4.0.3"), Version.Main.PRODUCTION.getFeatures()))
+				.version(Versions.withFeatures(V4_0, Version.Main.PRODUCTION.getFeatures()))
 				.net(new Net(port, Network.localhostIsIPv6()))
-				.db(this.dbName)
-				.collection(this.collection)
+				.db(dbName)
+				.collection(collection)
 				.upsert(upsert)
 				.dropCollection(drop)
 				.jsonArray(jsonArray)
@@ -83,22 +98,22 @@ public class QueryBuilderTagQueryTest {
 
 		MongoImportStarter.getDefaultInstance().prepare(mongoImportConfig).start();
 
-		this.mongo = new MongoClient("localhost", port);
+		mongo = new MongoClient("localhost", port);
 	}
 
 	@After
 	public void after() {
 		// this will stop mongoImportExecutable as both mongodExecutable and mongoImportExecutable use the same mongod.
-		if (this.mongodExecutable != null) {
-			this.mongodExecutable.stop();
+		if (mongodExecutable != null) {
+			mongodExecutable.stop();
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testTagQuery() {
-		final MongoDatabase db = this.mongo.getDatabase(this.dbName);
-		final MongoCollection col = db.getCollection(this.collection);
+		final MongoDatabase db = mongo.getDatabase(dbName);
+		final MongoCollection col = db.getCollection(collection);
 
 		final BasicDBObject query = new BasicDBObject();
 		final List<DBObject> tagQuery = QueryBuilder.getInstance().buildHasTagsQuery();
@@ -107,7 +122,7 @@ public class QueryBuilderTagQueryTest {
 		FindIterable<Document> findIterable = col.find(query, Document.class);
 		final MongoCursor<Document> cursor = findIterable.iterator();
 
-		Assert.assertThat(col.countDocuments(query), equalTo(3L));
+		assertThat(col.countDocuments(query)).isEqualTo(3L);
 
 		while (cursor.hasNext()) {
 			final Document next = cursor.next();
@@ -118,13 +133,15 @@ public class QueryBuilderTagQueryTest {
 			if (next.containsKey("elements")) {
 				elements = (List<Document>) next.get("elements");
 				for (final Document element : elements) {
-					if (element.containsKey("tags")) {
+					if (element.containsKey("tags"))
+					{
 						tags = true;
+						break;
 					}
 				}
 			}
 
-			Assert.assertTrue(tags);
+			assertThat(tags).isTrue();
 		}
 	}
 }

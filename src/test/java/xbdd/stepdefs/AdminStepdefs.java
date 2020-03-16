@@ -15,16 +15,14 @@
  */
 package xbdd.stepdefs;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,8 +31,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import xbdd.XbddDriver;
 import xbdd.utils.JerseyClientFactory;
 import xbdd.utils.XBDDInstance;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AdminStepdefs {
 
@@ -102,37 +100,37 @@ public class AdminStepdefs {
 		final Response resp = this.userClient
 				.target(this.xbddInstance.getBaseURL() + "/rest/reports/featureIndex/" + this.originalProductName + "/1.0.0/1").request()
 				.get();
-		assertThat(resp.readEntity(String.class), is("[ ]"));
+		assertThat(resp.readEntity(String.class)).isEqualTo("[ ]");
 	}
 
 	@Then("^references to the new product are added$")
 	public void references_to_the_new_product_are_added() {
 		final Response resp = this.userClient
 				.target(this.xbddInstance.getBaseURL() + "/rest/reports/featureIndex/" + this.newProductName + "/1.0.0/1").request().get();
-		assertThat(resp.readEntity(String.class), is(not("[ ]")));
+		assertThat(resp.readEntity(String.class)).isNotEqualTo("[ ]");
 	}
 
 	@Then("^the delete option is not visible$")
 	public void the_delete_option_is_not_visible() {
 		this.webDriver.navigate().to(this.xbddInstance.getBaseURL());
 		new WebDriverWait(this.webDriver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".page-zone h2")));
-		assertThat(this.webDriver.findElements(By.cssSelector(".delete-product")).size(), is(0));
+		assertThat(this.webDriver.findElements(By.cssSelector(".delete-product"))).isEmpty();
 	}
 
 	@Then("^the report for the product is no longer available$")
 	public void the_report_for_the_product_is_no_longer_available() {
 		this.webDriver.navigate().to(this.xbddInstance.getBaseURL());
 		new WebDriverWait(this.webDriver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".products-container")));
-		assertThat(this.webDriver.findElements(By.cssSelector(".delete-product")).size(), is(this.ProductQuant - 1));
+		assertThat(this.webDriver.findElements(By.cssSelector(".delete-product"))).hasSize(this.ProductQuant - 1);
 	}
 
 	@Then("^the request succeeds$")
 	public void the_request_succeeds() {
-		assertThat(this.renameResp.getStatus(), is(200));
+		assertThat(this.renameResp.getStatus()).isEqualTo(200);
 	}
 
 	@Then("^the request fails$")
 	public void the_request_fails() {
-		assertThat(this.renameResp.getStatus(), is(500));
+		assertThat(this.renameResp.getStatus()).isEqualTo(500);
 	}
 }
