@@ -107,8 +107,7 @@
 						</goals>
 						<configuration>
 							<port>${mongo.port}</port>
-							<version>4.0.2</version>
-							<features>ONLY_WITH_SSL,ONLY_WINDOWS_2008_SERVER</features>
+							<version>3.6.17</version>
 						</configuration>
 					</execution>
 					<execution>
