@@ -107,7 +107,7 @@
 						</goals>
 						<configuration>
 							<port>${mongo.port}</port>
-							<version>3.6.17</version>
+							<version>3.6.5</version>
 						</configuration>
 					</execution>
 					<execution>
